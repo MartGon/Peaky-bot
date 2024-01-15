@@ -19,7 +19,7 @@ module.exports = {
 		let dateStr = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
 		let fullcommand = getFullCommand(command, template, title, time, dateStr);
-		await interaction.reply(fullcommand);
+		await interaction.reply({content: fullcommand, ephemeral: true});
 	},
 };
 
