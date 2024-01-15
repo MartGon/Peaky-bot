@@ -1,18 +1,31 @@
+const { dirname } = require('path');
+const appDir = dirname(require.main.filename);
+
 const { Events } = require('discord.js');
-const { savedVariablesFile } = require('./config.json');
 const fs = require('fs');
+const { savedVariablesFile } = require(appDir + '/config.json');
+const { bot_id, channel_id} = require(appDir + '/25m-config.json')
 
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(message) {
-        if(isSignupMessage(message)){
+
+        // Check for 25M Sign up bot message
+        if(is25MSignupMessage(message)){
             console.log("Message for signups is " + message.id);
+            let savedVariables = require(appDir + "/" + savedVariablesFile);
+            savedVariables.signup_id = message.id;
+
+            fs.writeFile(savedVariablesFile, JSON.stringify(savedVariables, null, 4), (err) => {
+                if (err) { console.error(err); return; };
+                console.log("Wrote to saved variables file");
+            })
         }
+
 	},
 };
 
-function isSignupMessage(message){
-    let bot_id = "579155972115660803";
+function is25MSignupMessage(message){
     let author = message.author;
-    return author.id == bot_id && author.bot && !message.interaction && message.content == '';
+    return author.id == bot_id && author.bot && !message.interaction && message.content == '' && message.channelId == channel_id;
 }
