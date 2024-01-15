@@ -6,8 +6,7 @@ const { token, clientId, guildId } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
-	GatewayIntentBits.GuildMessages,
-	GatewayIntentBits.MessageContent
+	GatewayIntentBits.GuildMessages
 ] });
 
 // Setup commands
