@@ -9,7 +9,7 @@ const { role_id, channel_id } = require(path.join(appDir, "25m-config.json"));
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('25m-slackers')
+		.setName('25m-slackers-test')
 		.setDescription("Pings core members that haven't signed up!")
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         ,
@@ -38,12 +38,11 @@ module.exports = {
 						let ping_msg = "Missing signups from: \n";
 						for(let i in slackers)
 							ping_msg += (slackers[i] + '\n');
-	
-						// Send message pinging every slacker
-						interaction.channel.send(ping_msg);
+						interaction.reply({content: ping_msg, ephemeral: true});
 					}
 					else
 						interaction.reply({content: "There were no members to ping. Everyone signed up!", ephemeral: true});
+						
 				}
 				else{
 					interaction.reply({content: "Incorrect channel id to poing from!", ephemeral: true})
