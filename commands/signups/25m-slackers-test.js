@@ -30,7 +30,10 @@ module.exports = {
 					let signups = json['signups'];
 
 					let channel = interaction.channel;
-					let role_members = channel.members.filter(gmember => gmember.roles.cache.hasAny(role_id));
+					channel.members.each(gmember => console.log(gmember.user.username));
+					let role_members = channel.guild.members.cache.filter(gmember => {
+						return gmember.roles.cache.hasAny(role_id)
+					});
 					let slackers = getSlackers(signups, role_members);
 					
 					if(slackers.length > 0)
