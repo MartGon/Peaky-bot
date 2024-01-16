@@ -2,7 +2,7 @@ const path = require('path');
 const appDir = path.dirname(require.main.filename);
 
 const fetch  = require('node-fetch');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 const { savedVariablesFile } = require(path.join(appDir, 'config.json'));
 const { role_id, channel_id } = require(path.join(appDir, "25m-config.json"));
@@ -11,6 +11,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('25m-slackers')
 		.setDescription("Pings core members that haven't signed up!")
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         ,
 	async execute(interaction) {
 

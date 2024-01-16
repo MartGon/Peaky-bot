@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,6 +7,7 @@ module.exports = {
         .addStringOption(option => option.setName("title").
             setDescription("Title for the sign up")
         )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         ,
 	async execute(interaction) {
         console.log(interaction);
