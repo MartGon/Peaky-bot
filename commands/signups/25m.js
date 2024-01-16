@@ -10,18 +10,23 @@ module.exports = {
 	async execute(interaction) {
 		let command = "/quickcreate";
 		let template = "4";
-		let day = 3; // Wednesday
+		let weekday = 3; // Wednesday
         let title = "Icecrown Citadel" // Should get from config file
 		let time = "19:45";
 
-		let date = new Date();
-		date.setDate(date.getDate() + ((day + 7 - date.getDay()) % 7) || 7);
+		let date = getNextWeekdayDate(weekday);
 		let dateStr = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
 		let fullcommand = getFullCommand(command, template, title, time, dateStr);
 		await interaction.reply({content: fullcommand, ephemeral: true});
 	},
 };
+
+function getNextWeekdayDate(day){
+	let date = new Date();
+	date.setDate(date.getDate() + ((day + 7 - date.getDay()) % 7) || 7);
+	return date;
+}
 
 function getFullCommand(command, template, title, time, date){
 	return command + toOption("template", template) + toOption("title", title) + toOption("time", time) + toOption("date", date);
