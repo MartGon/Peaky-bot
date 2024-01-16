@@ -5,7 +5,7 @@ const fetch  = require('node-fetch');
 const { SlashCommandBuilder } = require('discord.js');
 
 const { savedVariablesFile } = require(path.join(appDir, 'config.json'));
-const { role_id, channel_id, bot_id } = require(path.join(appDir, "25m-config.json"));
+const { role_id, channel_id } = require(path.join(appDir, "25m-config.json"));
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -26,18 +26,42 @@ module.exports = {
 				
 				if(interaction.channelId == channel_id) {
 					
+					let signups = json['signups'];
+
 					let channel = interaction.channel;
-					let role_members = channel.members.filter(member => member.roles.cache.hasAny(role_id));
-
-					role_members.each(guild_member => console.log(guild_member.user.username));
-
-					interaction.reply({content: "Correct channel id!", ephemeral: true});
+					let role_members = channel.members.filter(gmember => gmember.roles.cache.hasAny(role_id));
+					let slackers = getSlackers(signups, role_members);
+					
+					let ping_msg = "Missing signups from: \n";
+					if(slackers.length > 0)
+					{
+						for(let i in slackers)
+							ping_msg += (slackers[i] + '\n');
+	
+						// Send message pinging every slacker
+						interaction.channel.send(ping_msg);
+					}
+					else
+						interaction.reply({content: "There were no members to ping. Everyone signed up!", ephemeral: true});
 				}
 				else{
-					interaction.reply({content: "Incorrect channel id!", ephemeral: true})
+					interaction.reply({content: "Incorrect channel id to poing from!", ephemeral: true})
 				}
 			});
-			
-		// Send message pinging everyone
 	},
 };
+
+function getSlackers(signups, role_members)
+{
+	let missing_members = role_members.filter(gmember => {
+		for(let i in signups){
+			if(gmember.user.id == signups[i]['userid'])
+				return false;
+		}
+		return true;
+	});
+	let slackers = []
+	missing_members.each(gmember => slackers.push(gmember.user.toString()));
+	
+	return slackers;
+}
