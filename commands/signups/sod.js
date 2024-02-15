@@ -1,4 +1,9 @@
 const { SlashCommandBuilder } = require('discord.js');
+const path = require('path');
+
+const appDir = path.dirname(require.main.filename);
+const { sodConfigFile } = require(appDir + '/config.json');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -8,10 +13,10 @@ module.exports = {
         ,
 
 	async execute(interaction) {
+        const { title } = require(path.join(appDir, sodConfigFile));
 		let command = "/quickcreate";
 		let template = "37";
 		let nextDays = 3;
-        let title = "Blackfathom Deeps" // Should get from config file
 		let times = ["18:00", "19:45", "20:30"];
 
         let fullcommands = []

@@ -10,7 +10,7 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         ,
 	async execute(interaction) {
-        console.log(interaction);
+        
         let title = interaction.options.getString("title");
 		await interaction.reply('Signup title is: ' + title);
 	},
