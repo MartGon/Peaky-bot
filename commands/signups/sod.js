@@ -13,11 +13,10 @@ module.exports = {
         ,
 
 	async execute(interaction) {
-        const { title } = require(path.join(appDir, sodConfigFile));
+        const { title, times } = require(path.join(appDir, sodConfigFile));
 		let command = "/quickcreate";
 		let template = "37";
 		let nextDays = 3;
-		let times = ["18:00", "19:45", "20:30"];
 
         let fullcommands = []
         for(let day = 1; day < nextDays + 1; day++){
